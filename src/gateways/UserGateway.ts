@@ -1,31 +1,24 @@
-interface User {
-    id: string;
-    name: string;
+import { PrismaClient } from '@prisma/client';
+import { User } from '../interfaces/user.interface';
+
+class UserGateway {
+  private prisma = new PrismaClient();
+
+  public async getAllUsers(): Promise<User[]> {
+    return await this.prisma.user.findMany();
   }
-  
-  class UserGateway {
-    private users: User[] = [
-      { id: '1', name: 'Alice' },
-      { id: '2', name: 'Bob' }
-    ];
-  
-    public async getAllUsers(): Promise<User[]> {
-      return this.users;
-    }
-  
-    public async getUserById(id: string): Promise<User | undefined> {
-      return this.users.find(user => user.id === id);
-    }
-  
-    public async createUser(userData: { name: string }): Promise<User> {
-      const newUser: User = {
-        id: (this.users.length + 1).toString(),
-        name: userData.name
-      };
-      this.users.push(newUser);
-      return newUser;
-    }
+
+  public async getUserById(id: number): Promise<User | null> {
+    return await this.prisma.user.findUnique({
+      where: { id },
+    });
   }
-  
-  export default UserGateway;
-  
+
+  public async createUser(name: string): Promise<User> {
+    return await this.prisma.user.create({
+      data: { name },
+    });
+  }
+}
+
+export default UserGateway;

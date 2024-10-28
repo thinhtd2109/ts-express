@@ -20,7 +20,8 @@ class UserController {
 
   public async getUserById(req: Request, res: Response): Promise<void> {
     try {
-      const user = await this.userService.getUserById(req.params.id);
+      const userId = parseInt(req.params.id);
+      const user = await this.userService.getUserById(userId);
       if (user) {
         sendSuccessResponse(res, user);
       } else {

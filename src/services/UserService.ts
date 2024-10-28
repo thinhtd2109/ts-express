@@ -11,12 +11,12 @@ class UserService {
     return await this.userGateway.getAllUsers();
   }
 
-  public async getUserById(id: string) {
+  public async getUserById(id: number) {
     return await this.userGateway.getUserById(id);
   }
 
   public async createUser(userData: { name: string }) {
-    return await this.userGateway.createUser(userData);
+    return await this.userGateway.createUser(userData.name);
   }
 }
 

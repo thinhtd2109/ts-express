@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { sendSuccessResponse } from './utils/ResponseUtils';
+import UserRoute from './routes/UserRoute';
 
 dotenv.config();
 
@@ -25,8 +26,8 @@ export class App {
         this.app.get('/', (request: Request, response: Response) => {
             return sendSuccessResponse(response, { message: 'Welcome to API' });
         })
-        // const userRoute = new UserRoute();
-        // this.app.use('/api/users', userRoute.router);
+        const userRoute = new UserRoute();
+        this.app.use('/api/users', userRoute.router);
     }
 
     public listen(): void {
